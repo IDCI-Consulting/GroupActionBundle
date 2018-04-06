@@ -1,7 +1,6 @@
 parameters:
   idci.group_action.registry.class: IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistry
   idci.group_action.class: IDCI\Bundle\GroupActionBundle\Action\AbstractGroupAction
-  idci.group_action.container.class: IDCI\Bundle\GroupActionBundle\Action\ContainerGroupAction
   idci.group_action.form.type.class: IDCI\Bundle\GroupActionBundle\Form\GroupActionType
   idci.group_action.manager.class: IDCI\Bundle\GroupActionBundle\Manager\GroupActionManager
 
@@ -16,13 +15,6 @@ services:
     abstract: true
     class: "%idci.group_action.class%"
     arguments: [ "@doctrine.orm.entity_manager" ]
-
-  idci.group_action.container:
-    parent: idci.group_action
-    class: "%idci.group_action.container.class%"
-    arguments: []
-    tags:
-      - { name: idci.group_action, alias: container }
 
   # FormType
   idci.group_action.form.type:
