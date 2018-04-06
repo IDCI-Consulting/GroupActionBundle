@@ -1,0 +1,41 @@
+parameters:
+  idci.group_action.registry.class: IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistry
+  idci.group_action.class: IDCI\Bundle\GroupActionBundle\Action\AbstractGroupAction
+  idci.group_action.container.class: IDCI\Bundle\GroupActionBundle\Action\ContainerGroupAction
+  idci.group_action.form.type.class: IDCI\Bundle\GroupActionBundle\Form\GroupActionType
+  idci.group_action.manager.class: IDCI\Bundle\GroupActionBundle\Manager\GroupActionManager
+
+services:
+
+  # Registry
+  idci.group_action.registry:
+    class: "%idci.group_action.registry.class%"
+
+  # Action
+  idci.group_action:
+    abstract: true
+    class: "%idci.group_action.class%"
+    arguments: [ "@doctrine.orm.entity_manager" ]
+
+  idci.group_action.container:
+    parent: idci.group_action
+    class: "%idci.group_action.container.class%"
+    arguments: []
+    tags:
+      - { name: idci.group_action, alias: container }
+
+  # FormType
+  idci.group_action.form.type:
+    class: "%idci.group_action.form.type.class%"
+    arguments:
+      - "@translator"
+    tags:
+      - { name: form.type, alias: group_action }
+
+  # Manager
+  idci.group_action.manager:
+    class: "%idci.group_action.manager.class%"
+    arguments:
+      - "@idci.group_action.registry"
+      - "@form.factory"
+      - "@router"

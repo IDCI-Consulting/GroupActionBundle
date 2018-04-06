@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+
+  php:
+    container_name: group-action-php
+    build:
+      context: .docker/php/5.6/build
+    volumes:
+      - ./:/var/www/html
+      - group-action-composer:/root/.composer
+
+volumes:
+  group-action-composer:
