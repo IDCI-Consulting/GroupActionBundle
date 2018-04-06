@@ -32,12 +32,14 @@ public function registerBundles()
 }
 ```
 
-Import the bundle configuration:
+Import the bundle routing:
 ```yml
-# app/config/config.yml
+# app/config/routing.yml
 
-imports:
-    - { resource: '@IDCIGroupActionBundle/Resources/config/config.yml' }
+group_action:
+    resource: "@IDCIGroupActionBundle/Controller/"
+    type:     annotation
+    prefix:   /
 ```
 
 That's it, you are ready to use the bundle.
