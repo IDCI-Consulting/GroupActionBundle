@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
+use IDCI\Bundle\GroupActionBundle\Form\GroupActionType;
 
 class GroupActionManager
 {
@@ -52,7 +53,7 @@ class GroupActionManager
     {
         $formBuilder = $this
             ->formFactory
-            ->createBuilder('group_action', null, array(
+            ->createBuilder(GroupActionType::class, null, array(
                 'group_action' => $this->registry->getGroupAction($alias)
             ));
 

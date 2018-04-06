@@ -6,8 +6,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionInterface;
 
 class GroupActionType extends AbstractType
@@ -38,20 +41,19 @@ class GroupActionType extends AbstractType
         }
 
         $builder
-            ->add('groupActionAlias', 'hidden', array(
+            ->add('groupActionAlias', HiddenType::class, array(
                 'data' => $groupAction->getAlias()
             ))
-            ->add('actions', 'choice', array(
+            ->add('actions', ChoiceType::class, array(
                 'choices' => $choices,
             ))
-            ->add('execute', 'submit')
-        ;
+            ->add('execute', SubmitType::class);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setRequired(array(
@@ -62,15 +64,6 @@ class GroupActionType extends AbstractType
             ))
             ->setDefaults(array(
                 'translation_domain' => 'IDCIGroupActionBundle'
-            ))
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'idci_group_action';
+            ));
     }
 }
