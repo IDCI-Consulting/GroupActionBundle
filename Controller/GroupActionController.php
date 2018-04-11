@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class GroupActionController extends Controller
 {
@@ -25,14 +26,24 @@ class GroupActionController extends Controller
 
             $ids = is_array($form->get('ids')->getData()) ? $form->get('ids')->getData() : array();
 
-            // TODO: put the following code into a try & catch
-            call_user_func_array(
-                array(
-                    $groupAction,
-                    sprintf('%s%s', 'execute', $form->get('actions')->getData())
-                ),
-                array($ids)
-            );
+            try {
+                $response = call_user_func_array(
+                    array(
+                        $groupAction,
+                        sprintf('%s%s', 'execute', $form->get('actions')->getData())
+                    ),
+                    array($ids)
+                );
+
+                if ($response instanceof Response) {
+                    return $response;
+                }
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'error',
+                    sprintf("An error occured with the following message:\n %s", $e->getMessage())
+                );
+            }
         }
 
         // Redirect to previous URL
