@@ -20,16 +20,12 @@ class GroupActionCompilerPass implements CompilerPassInterface
         $registryDefinition = $container->getDefinition('idci.group_action.registry');
 
         foreach ($container->findTaggedServiceIds('idci.group_action') as $id => $tags) {
-            foreach ($tags as $attributes) {
-                $alias = isset($attributes['alias'])
-                    ? $attributes['alias']
-                    : $id;
+            $serviceDefinition = $container->findDefinition($id);
 
-                $registryDefinition->addMethodCall(
-                    'setGroupAction',
-                    array($alias, new Reference($id))
-                );
-            }
+            $registryDefinition->addMethodCall(
+                'setGroupAction',
+                array($serviceDefinition->getClass(), new Reference($id))
+            );
         }
     }
 }

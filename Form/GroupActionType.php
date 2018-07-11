@@ -43,7 +43,7 @@ class GroupActionType extends AbstractType
 
         $groupActions = array();
         foreach ($options['group_action_aliases'] as $alias) {
-            $groupActions[] = $this->registry->getGroupAction($alias);
+            $groupActions[$alias] = $this->registry->getGroupAction($alias);
         }
 
         // Translate choice value
@@ -58,7 +58,7 @@ class GroupActionType extends AbstractType
 
         $builder
             ->add('actions', ChoiceType::class, array(
-                'choices' => array_combine($groupActions, $groupActions),
+                'choices' => $groupActions,
             ))
             ->add('execute', SubmitType::class, $options['submit_button_options'])
         ;

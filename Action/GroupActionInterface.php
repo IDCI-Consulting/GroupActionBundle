@@ -45,4 +45,11 @@ interface GroupActionInterface
      * @return mixed
      */
     public function execute(array $data);
+
+    /**
+     * Returns the group action name.
+     *
+     * @return string
+     */
+    public function getName();
 }
