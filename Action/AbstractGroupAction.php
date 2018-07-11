@@ -3,6 +3,7 @@
 namespace IDCI\Bundle\GroupActionBundle\Action;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use IDCI\Bundle\GroupActionBundle\Exception\ObjectManagerMissingException;
 
 /**
  *  @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
@@ -24,7 +25,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
      *
      * @param EntityManager $entityManager.
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om = null)
     {
         $this->om = $om;
     }
@@ -79,9 +80,18 @@ abstract class AbstractGroupAction implements GroupActionInterface
      */
     public function getRepository()
     {
+        if (!$this->om instanceof ObjectManager) {
+            throw new ObjectManagerMissingException(get_called_class());
+        }
+
         return $this->om->getRepository($this->getObjectClassName());
     }
 
+    /**
+     * To string
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->getName();
