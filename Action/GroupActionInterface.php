@@ -36,4 +36,13 @@ interface GroupActionInterface
      * @return string
      */
     public function getAlias();
+
+    /**
+     * Executes group action with given data.
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function execute(array $data);
 }

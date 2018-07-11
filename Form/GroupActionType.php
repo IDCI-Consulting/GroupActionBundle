@@ -12,14 +12,24 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionInterface;
+use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
 
 class GroupActionType extends AbstractType
 {
+    /**
+     * @var TranslatorInterface
+     */
     private $translator;
 
-    public function __construct(TranslatorInterface $translator)
+    /**
+     * @var GroupActionRegistryInterface
+     */
+    private $registry;
+
+    public function __construct(TranslatorInterface $translator, GroupActionRegistryInterface $registry)
     {
         $this->translator = $translator;
+        $this->registry = $registry;
     }
 
     /**
@@ -27,27 +37,31 @@ class GroupActionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $groupAction = $options['group_action'];
-
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            $event->getForm()->add('ids');
+            $event->getForm()->add('data');
         });
 
-        $choices = array_combine($groupAction->getActions(), $groupAction->getActions());
+        $groupActions = array();
+        foreach ($options['group_action_aliases'] as $alias) {
+            $groupActions[] = $this->registry->getGroupAction($alias);
+        }
 
         // Translate choice value
-        foreach ($choices as $key => $value) {
-            $choices[$key] = $this->translator->trans($value, array(), 'messages', 'fr');
+        foreach ($groupActions as $key => $value) {
+            $choices[$key] = $this->translator->trans(
+                $value,
+                array(),
+                $options['translation_domain'],
+                $options['translation_locale']
+            );
         }
 
         $builder
-            ->add('groupActionAlias', HiddenType::class, array(
-                'data' => $groupAction->getAlias()
-            ))
             ->add('actions', ChoiceType::class, array(
-                'choices' => $choices,
+                'choices' => array_combine($groupActions, $groupActions),
             ))
-            ->add('execute', SubmitType::class);
+            ->add('execute', SubmitType::class, $options['submit_button_options'])
+        ;
     }
 
     /**
@@ -57,13 +71,20 @@ class GroupActionType extends AbstractType
     {
         $resolver
             ->setRequired(array(
-                'group_action'
+                'group_action_aliases',
             ))
+            ->setDefined(array('submit_button_options', 'translation_locale'))
             ->setAllowedTypes(array(
-                'group_action' => array(GroupActionInterface::class)
+                'group_action_aliases' => array('array'),
+                'submit_button_options' => array('array'),
+                'translation_locale' => array('string'),
             ))
             ->setDefaults(array(
-                'translation_domain' => 'IDCIGroupActionBundle'
-            ));
+                'allow_extra_fields' => true,
+                'submit_button_options' => array(),
+                'translation_domain' => 'IDCIGroupActionBundle',
+                'translation_locale' => 'fr',
+            ))
+        ;
     }
 }

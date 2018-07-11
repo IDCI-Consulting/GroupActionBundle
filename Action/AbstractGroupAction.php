@@ -54,7 +54,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
         $reflectionClass = new \ReflectionClass($this);
 
         foreach ($reflectionClass->getMethods() as $method) {
-            if (preg_match("/^execute/", $method->name)) {
+            if (preg_match("/^execute[a-zA-Z0-9]+/", $method->name)) {
                 $actions[] = str_replace('execute', '', $method->name);
             }
         }
@@ -81,6 +81,16 @@ abstract class AbstractGroupAction implements GroupActionInterface
     {
         return $this->om->getRepository($this->getObjectClassName());
     }
+
+    public function __toString()
+    {
+        return $this->getAlias();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function execute(array $data);
 
     /**
      * {@inheritdoc}

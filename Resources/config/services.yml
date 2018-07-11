@@ -21,6 +21,7 @@ services:
     class: "%idci.group_action.form.type.class%"
     arguments:
       - "@translator"
+      - "@idci.group_action.registry"
     tags:
       - { name: form.type, alias: group_action }
 
@@ -30,4 +31,3 @@ services:
     arguments:
       - "@idci.group_action.registry"
       - "@form.factory"
-      - "@router"

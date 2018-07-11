@@ -47,5 +47,5 @@ That's it, you are ready to use the bundle.
 Usage
 -----
 
-* Use groupaction in your controller
+* Use groupaction form in your controller and view
 * Create your own group action service
