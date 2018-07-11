@@ -3,6 +3,7 @@ parameters:
   idci.group_action.class: IDCI\Bundle\GroupActionBundle\Action\AbstractGroupAction
   idci.group_action.form.type.class: IDCI\Bundle\GroupActionBundle\Form\GroupActionType
   idci.group_action.manager.class: IDCI\Bundle\GroupActionBundle\Manager\GroupActionManager
+  idci.group_action.twig_extension.class: IDCI\Bundle\GroupActionBundle\Twig\GroupActionExtension
 
 services:
 
@@ -31,3 +32,13 @@ services:
     arguments:
       - "@idci.group_action.registry"
       - "@form.factory"
+
+  # Twig Extension
+  idci.group_action.twig_extension:
+    class: "%idci.group_action.twig_extension.class%"
+    arguments:
+        - "@idci.group_action.manager"
+        - "@twig.form.renderer"
+    public: false
+    tags:
+        - { name: twig.extension }
