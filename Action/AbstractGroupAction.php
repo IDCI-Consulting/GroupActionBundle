@@ -94,7 +94,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->getAlias();
     }
 
     /**
@@ -106,9 +106,4 @@ abstract class AbstractGroupAction implements GroupActionInterface
      * {@inheritdoc}
      */
     abstract public function getObjectClassName();
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getName();
 }

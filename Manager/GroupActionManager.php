@@ -5,6 +5,7 @@ namespace IDCI\Bundle\GroupActionBundle\Manager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
 use IDCI\Bundle\GroupActionBundle\Form\GroupActionType;
@@ -24,6 +25,11 @@ class GroupActionManager
     private $formFactory;
 
     /**
+     * @var Request
+     */
+    private $request;
+
+    /**
      * Constructor
      *
      * @param GroupActionRegistryInterface $registry
@@ -31,10 +37,12 @@ class GroupActionManager
      */
     public function __construct(
         GroupActionRegistryInterface $registry,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        RequestStack $requestStack
     ) {
         $this->registry = $registry;
         $this->formFactory = $formFactory;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
     /**
@@ -55,7 +63,8 @@ class GroupActionManager
 
         $formBuilder = $this
             ->formFactory
-            ->createBuilder(GroupActionType::class, null, $options);
+            ->createBuilder(GroupActionType::class, null, $options)
+        ;
 
         $formBuilder->setMethod(Request::METHOD_POST);
 
@@ -72,8 +81,13 @@ class GroupActionManager
     public function buildForm(Request $request)
     {
         $data = $request->request->get('group_action');
+        foreach($data as $key => $value) {
+            if (!in_array($key, array('data', '_token')) && $this->registry->hasGroupAction($value)) {
+                return $this->getForm(array($value));
+            }
+        }
 
-        return $this->getForm(array($data['actions']));
+        return false;
     }
 
     /**
@@ -108,7 +122,7 @@ class GroupActionManager
         if ($form->isValid()) {
             $groupAction = $this
                 ->registry
-                ->getGroupAction($form->get('actions')->getData())
+                ->getGroupAction($form->getClickedButton()->getName())
             ;
 
             $selectedData = is_array($form->get('data')->getData()) ? $form->get('data')->getData() : array();

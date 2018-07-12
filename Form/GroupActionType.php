@@ -41,27 +41,23 @@ class GroupActionType extends AbstractType
             $event->getForm()->add('data');
         });
 
-        $groupActions = array();
         foreach ($options['group_action_aliases'] as $alias) {
-            $groupActions[$alias] = $this->registry->getGroupAction($alias);
-        }
-
-        // Translate choice value
-        foreach ($groupActions as $key => $value) {
-            $choices[$key] = $this->translator->trans(
-                $value,
+            $groupAction = $this->registry->getGroupAction($alias);
+            $translatedGroupAction = $this->translator->trans(
+                $groupAction,
                 array(),
                 $options['translation_domain'],
                 $options['translation_locale']
             );
-        }
 
-        $builder
-            ->add('actions', ChoiceType::class, array(
-                'choices' => $groupActions,
-            ))
-            ->add('execute', SubmitType::class, $options['submit_button_options'])
-        ;
+            $builder->add($alias, SubmitType::class, array_replace_recursive(
+                array(
+                    'label' => $translatedGroupAction,
+                    'attr' => array('value' => $alias)
+                ),
+                $options['submit_button_options']
+            ));
+        }
     }
 
     /**

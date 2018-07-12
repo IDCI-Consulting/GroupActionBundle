@@ -32,6 +32,7 @@ services:
     arguments:
       - "@idci.group_action.registry"
       - "@form.factory"
+      - "@request_stack"
 
   # Twig Extension
   idci.group_action.twig_extension:
