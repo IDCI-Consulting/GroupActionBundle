@@ -1,13 +1,14 @@
 'use strict';
 
 function handleCheckboxes(element) {
-    if (!document.forms['group_action']) {
+    if (!document.forms['idci_group_action']) {
         return;
     }
 
-    var checkboxes = document.forms['group_action'].getElementsByTagName('input');
+    var checkboxes = document.forms['idci_group_action'].getElementsByTagName('input');
 
     if (element.checked) {
+      console.log('checked');
         checkAll(checkboxes);
     } else {
         uncheckAll(checkboxes);

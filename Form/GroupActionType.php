@@ -43,12 +43,6 @@ class GroupActionType extends AbstractType
 
         foreach ($options['group_action_aliases'] as $alias) {
             $groupAction = $this->registry->getGroupAction($alias);
-            $translatedGroupAction = $this->translator->trans(
-                $groupAction,
-                array(),
-                $options['translation_domain'],
-                $options['translation_locale']
-            );
 
             $builder->add($alias, SubmitType::class, array_replace_recursive(
                 array(
@@ -69,17 +63,14 @@ class GroupActionType extends AbstractType
             ->setRequired(array(
                 'group_action_aliases',
             ))
-            ->setDefined(array('submit_button_options', 'translation_locale'))
+            ->setDefined(array('submit_button_options'))
             ->setAllowedTypes(array(
                 'group_action_aliases' => array('array'),
                 'submit_button_options' => array('array'),
-                'translation_locale' => array('string'),
             ))
             ->setDefaults(array(
                 'allow_extra_fields' => true,
                 'submit_button_options' => array(),
-                'translation_domain' => 'IDCIGroupActionBundle',
-                'translation_locale' => 'fr',
             ))
         ;
     }

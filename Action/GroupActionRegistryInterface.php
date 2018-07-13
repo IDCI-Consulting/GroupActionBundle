@@ -15,7 +15,7 @@ interface GroupActionRegistryInterface
      *
      * @return GroupActionRegistryInterface
      */
-    public function setGroupAction($alias, GroupActionInterface $groupAction);
+    public function setAction($alias, GroupActionInterface $groupAction);
 
     /**
      * Returns group action by alias.
@@ -27,7 +27,7 @@ interface GroupActionRegistryInterface
      * @throws Exception\UnexpectedTypeException  If the passed alias is not a string.
      * @throws \InvalidArgumentException If the group action can not be retrieved.
      */
-    public function getGroupAction($alias);
+    public function getAction($alias);
 
     /**
      * Returns whether the given group action is supported.
@@ -36,5 +36,5 @@ interface GroupActionRegistryInterface
      *
      * @return bool Whether the group action is present.
      */
-    public function hasGroupAction($alias);
+    public function hasAction($alias);
 }
