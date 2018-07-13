@@ -70,6 +70,10 @@ abstract class AbstractGroupAction implements GroupActionInterface
      */
     public function getObjectManager()
     {
+        if (null === $this->om) {
+            throw new ObjectManagerMissingException(get_called_class());
+        }
+
         return $this->om;
     }
 

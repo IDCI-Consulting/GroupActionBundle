@@ -127,7 +127,7 @@ class GroupActionManager
             }
         }
 
-        throw new RuntimeException('The form submit button is not associated to a configured group action.');
+        throw new RuntimeException('The form must be submitted by a group action submit button.');
     }
 
     /**

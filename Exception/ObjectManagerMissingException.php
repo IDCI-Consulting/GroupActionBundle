@@ -9,8 +9,7 @@ class ObjectManagerMissingException extends \InvalidArgumentException
     public function __construct($class)
     {
         parent::__construct(sprintf(
-            '"%s", for class "%s", is missing.',
-            ObjectManager::class,
+            'The ObjectManager must be set for "%s"',
             $class
         ));
     }

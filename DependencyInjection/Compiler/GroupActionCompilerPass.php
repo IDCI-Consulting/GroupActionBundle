@@ -23,7 +23,8 @@ class GroupActionCompilerPass implements CompilerPassInterface
             foreach ($tags as $attributes) {
                 $alias = isset($attributes['alias'])
                     ? $attributes['alias']
-                    : $id;
+                    : $id
+                ;
 
                 $registryDefinition->addMethodCall(
                     'setAction',

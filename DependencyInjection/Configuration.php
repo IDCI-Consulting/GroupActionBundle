@@ -21,7 +21,26 @@ class Configuration implements ConfigurationInterface
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
+        $rootNode
+            ->children()
+                ->arrayNode('namespaces')
+                    ->defaultValue(array())
+                    ->useAttributeAsKey('namespace')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
+    }
+
+    public function addNamespacesNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('namespaces');
+
+        return $node;
     }
 }

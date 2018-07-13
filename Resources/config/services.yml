@@ -12,7 +12,7 @@ services:
   idci.group_action.registry:
     class: "%idci.group_action.registry.class%"
 
-  # Registry
+  # Guesser
   idci.group_action.guesser:
     class: "%idci.group_action.guesser.class%"
 
