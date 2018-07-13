@@ -74,20 +74,6 @@ abstract class AbstractGroupAction implements GroupActionInterface
     }
 
     /**
-     * Gets Repository.
-     *
-     * @return Doctrine\Common\Persistence\ObjectRepository
-     */
-    public function getRepository()
-    {
-        if (!$this->om instanceof ObjectManager) {
-            throw new ObjectManagerMissingException(get_called_class());
-        }
-
-        return $this->om->getRepository($this->getObjectClassName());
-    }
-
-    /**
      * To string
      *
      * @return string
@@ -101,9 +87,4 @@ abstract class AbstractGroupAction implements GroupActionInterface
      * {@inheritdoc}
      */
     abstract public function execute(array $data);
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getObjectClassName();
 }

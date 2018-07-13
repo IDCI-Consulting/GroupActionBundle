@@ -8,13 +8,6 @@ namespace IDCI\Bundle\GroupActionBundle\Action;
 interface GroupActionInterface
 {
     /**
-     * Returns the object class name.
-     *
-     * @return string
-     */
-    public function getObjectClassName();
-
-    /**
      * Returns the available actions
      *
      * @return array
@@ -45,11 +38,4 @@ interface GroupActionInterface
      * @return mixed
      */
     public function execute(array $data);
-
-    /**
-     * Returns the group action name.
-     *
-     * @return string
-     */
-    public function getName();
 }

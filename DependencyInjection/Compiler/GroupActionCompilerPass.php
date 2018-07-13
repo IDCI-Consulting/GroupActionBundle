@@ -26,7 +26,7 @@ class GroupActionCompilerPass implements CompilerPassInterface
                     : $id;
 
                 $registryDefinition->addMethodCall(
-                    'setGroupAction',
+                    'setAction',
                     array($alias, new Reference($id))
                 );
             }

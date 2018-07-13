@@ -3,21 +3,29 @@
 namespace IDCI\Bundle\GroupActionBundle\Manager;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
+use IDCI\Bundle\GroupActionBundle\Exception\RuntimeException;
 use IDCI\Bundle\GroupActionBundle\Form\GroupActionType;
+use IDCI\Bundle\GroupActionBundle\Guesser\GroupActionGuesserInterface;
 
 class GroupActionManager
 {
-    const GROUP_ACTION = 'group_action';
+    const QUERY_STRING_PARAMETER_NAME = 'idci_group_action';
+    const CHECKBOX_FORM_ITEM_NAME = 'data';
 
     /**
      * @var GroupActionRegistryInterface
      */
-    private $registry;
+    private $groupActionRegistry;
 
     /**
      * @var FormFactoryInterface
@@ -25,24 +33,24 @@ class GroupActionManager
     private $formFactory;
 
     /**
-     * @var Request
+     * @var GroupActionGuesserInterface
      */
-    private $request;
+    private $groupActionGuesser;
 
     /**
      * Constructor
      *
-     * @param GroupActionRegistryInterface $registry
+     * @param GroupActionRegistryInterface $groupActionRegistry
      * @param FormFactoryInterface         $formFactory
      */
     public function __construct(
-        GroupActionRegistryInterface $registry,
         FormFactoryInterface $formFactory,
-        RequestStack $requestStack
+        GroupActionRegistryInterface $groupActionRegistry,
+        GroupActionGuesserInterface $groupActionGuesser
     ) {
-        $this->registry = $registry;
         $this->formFactory = $formFactory;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->groupActionRegistry = $groupActionRegistry;
+        $this->groupActionGuesser = $groupActionGuesser;
     }
 
     /**
@@ -52,23 +60,53 @@ class GroupActionManager
      *
      * @return Symfony\Component\Form\FormInterface
      */
-    public function getForm(array $aliases, array $options = array())
+    public function createForm(array $options)
     {
-        $options = array_merge(
-            $options,
-            array(
-                'group_action_aliases' => $aliases
-            )
-        );
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $resolvedOptions = $resolver->resolve($options);
 
-        $formBuilder = $this
-            ->formFactory
-            ->createBuilder(GroupActionType::class, null, $options)
-        ;
+        $formBuilder = $this->formFactory->createNamedBuilder(self::QUERY_STRING_PARAMETER_NAME);
+        $formBuilder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $event->getForm()->add(self::CHECKBOX_FORM_ITEM_NAME);
+        });
+
+        foreach ($resolvedOptions['actions'] as $actionAlias) {
+            $groupAction = $this->groupActionRegistry->getAction($actionAlias);
+
+            $formBuilder->add($actionAlias, SubmitType::class, array_replace_recursive(
+                array('attr' => array('value' => $actionAlias)),
+                $resolvedOptions['submit_button_options']
+            ));
+        }
 
         $formBuilder->setMethod(Request::METHOD_POST);
 
         return $formBuilder->getForm();
+    }
+
+    protected function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver
+            ->setDefaults(array(
+                'actions' => array(),
+                'namespace' => null,
+                'submit_button_options' => array(),
+            ))
+            ->setAllowedTypes('actions', array('array'))
+            ->setAllowedTypes('namespace', array('null', 'string'))
+            ->setAllowedTypes('submit_button_options', array('array'))
+            ->setNormalizer('actions', function (Options $options, $value) {
+                if (null !== $options['namespace']) {
+                    $value = array_merge(
+                        $this->groupActionGuesser->guess($options['namespace']),
+                        $value
+                    );
+                }
+
+                return $value;
+            })
+        ;
     }
 
     /**
@@ -80,14 +118,16 @@ class GroupActionManager
      */
     public function buildForm(Request $request)
     {
-        $data = $request->request->get('group_action');
+        $data = $request->request->get(self::QUERY_STRING_PARAMETER_NAME);
         foreach($data as $key => $value) {
-            if (!in_array($key, array('data', '_token')) && $this->registry->hasGroupAction($value)) {
-                return $this->getForm(array($value));
+            if (!in_array($key, array('data', '_token')) && $this->groupActionRegistry->hasAction($value)) {
+                return $this->createForm(array(
+                    'actions' => array($value)
+                ));
             }
         }
 
-        return false;
+        throw new RuntimeException('The form submit button is not associated to a configured group action.');
     }
 
     /**
@@ -99,7 +139,7 @@ class GroupActionManager
      */
     public function hasAction(Request $request)
     {
-        return $request->request->has(self::GROUP_ACTION);
+        return $request->request->has(self::QUERY_STRING_PARAMETER_NAME );
     }
 
     /**
@@ -121,8 +161,8 @@ class GroupActionManager
 
         if ($form->isValid()) {
             $groupAction = $this
-                ->registry
-                ->getGroupAction($form->getClickedButton()->getName())
+                ->groupActionRegistry
+                ->getAction($form->getClickedButton()->getName())
             ;
 
             $selectedData = is_array($form->get('data')->getData()) ? $form->get('data')->getData() : array();

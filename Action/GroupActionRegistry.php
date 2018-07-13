@@ -17,7 +17,7 @@ class GroupActionRegistry implements GroupActionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function setGroupAction($alias, GroupActionInterface $groupAction)
+    public function setAction($alias, GroupActionInterface $groupAction)
     {
         // Set the group action alias
         $groupAction->setAlias($alias);
@@ -30,7 +30,7 @@ class GroupActionRegistry implements GroupActionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getGroupAction($alias)
+    public function getAction($alias)
     {
         if (!is_string($alias)) {
             throw new UnexpectedTypeException($alias, 'string');
@@ -46,7 +46,7 @@ class GroupActionRegistry implements GroupActionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function hasGroupAction($alias)
+    public function hasAction($alias)
     {
         return isset($this->groupActions[$alias]) ? true : false;
     }
