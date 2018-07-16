@@ -75,7 +75,10 @@ class GroupActionManager
             $groupAction = $this->groupActionRegistry->getAction($actionAlias);
 
             $formBuilder->add($actionAlias, SubmitType::class, array_replace_recursive(
-                array('attr' => array('value' => $actionAlias)),
+                array(
+                    'attr' => array('value' => $actionAlias),
+                    'label' => $actionAlias,
+                ),
                 $resolvedOptions['submit_button_options']
             ));
         }
