@@ -15,6 +15,33 @@ bash:
 	docker-compose exec php bash
 
 
+# NodeJs commands
+
+.PHONY: npm-install
+npm-install:
+	docker-compose run --rm node npm install $(options)
+
+.PHONY: yarn
+yarn:
+	docker-compose run --rm node yarn $(cmd) $(options)
+
+.PHONY: webpack-dev
+webpack-dev:
+	docker-compose run --rm node yarn run webpack-dev
+
+.PHONY: webpack-prod
+webpack-prod:
+	docker-compose run --rm node yarn run webpack-prod
+
+.PHONY: sass-dev
+sass-dev:
+	docker-compose run --rm node yarn run sass-dev $(options)
+
+.PHONY: sass-prod
+sass-prod:
+	docker-compose run --rm node yarn run sass-prod $(options)
+
+
 # PHP commands
 
 .PHONY: composer-add-github-token
