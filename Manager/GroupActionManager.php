@@ -122,7 +122,7 @@ class GroupActionManager
     public function buildForm(Request $request)
     {
         $data = $request->request->get(self::QUERY_STRING_PARAMETER_NAME);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             if (!in_array($key, array('data', '_token')) && $this->groupActionRegistry->hasAction($value)) {
                 return $this->createForm(array(
                     'actions' => array($value)
@@ -142,7 +142,7 @@ class GroupActionManager
      */
     public function hasAction(Request $request)
     {
-        return $request->request->has(self::QUERY_STRING_PARAMETER_NAME );
+        return $request->request->has(self::QUERY_STRING_PARAMETER_NAME);
     }
 
     /**

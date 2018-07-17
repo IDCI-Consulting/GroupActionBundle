@@ -1,1 +1,3 @@
-import handleCheckboxes from 'IDCIGroupActionBundle/handleCheckboxes';
+import {handleCheckboxes} from 'IDCIGroupActionBundle/handleCheckboxes';
+
+windown.handleCheckboxes = handleCheckboxes;
