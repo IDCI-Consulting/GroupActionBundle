@@ -35,9 +35,11 @@ services:
   idci.group_action.manager:
     class: "%idci.group_action.manager.class%"
     arguments:
+      - "@translator"
       - "@form.factory"
       - "@idci.group_action.registry"
       - "@idci.group_action.guesser"
+      - "%idci.group_action.enable_confirmation%"
 
   # Twig Extension
   idci.group_action.twig_extension:

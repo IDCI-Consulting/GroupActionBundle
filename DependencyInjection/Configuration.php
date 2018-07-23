@@ -18,11 +18,11 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('idci_group_action');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
         $rootNode
             ->children()
+                ->booleanNode('enable_confirmation')
+                    ->defaultTrue()
+                ->end()
                 ->arrayNode('namespaces')
                     ->defaultValue(array())
                     ->useAttributeAsKey('namespace')
@@ -34,13 +34,5 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $treeBuilder;
-    }
-
-    public function addNamespacesNode()
-    {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('namespaces');
-
-        return $node;
     }
 }

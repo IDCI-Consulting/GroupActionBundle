@@ -23,6 +23,7 @@ class IDCIGroupActionExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('idci.group_action.namespaces', $config['namespaces']);
+        $container->setParameter('idci.group_action.enable_confirmation', $config['enable_confirmation']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
