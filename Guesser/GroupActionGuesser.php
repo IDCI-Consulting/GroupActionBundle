@@ -3,7 +3,7 @@
 namespace IDCI\Bundle\GroupActionBundle\Guesser;
 
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionInterface;
-use IDCI\Bundle\GroupActionBundle\Exception\NotGuessedGroupActionException;
+use IDCI\Bundle\GroupActionBundle\Exception\UndefinedGroupActionNamespaceException;
 
 class GroupActionGuesser implements GroupActionGuesserInterface
 {
@@ -18,7 +18,7 @@ class GroupActionGuesser implements GroupActionGuesserInterface
     public function guess($namespace)
     {
         if (!array_key_exists($namespace, $this->namespaces)) {
-            throw new NotGuessedGroupActionException($namespace);
+            throw new UndefinedGroupActionNamespaceException($namespace);
         }
 
         return $this->namespaces[$namespace];
