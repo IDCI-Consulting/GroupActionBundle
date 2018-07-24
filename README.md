@@ -55,6 +55,51 @@ public function registerBundles()
 
 That's it, you are ready to use the bundle.
 
+How to use
+----------
+
+Build the form in your controller :
+
+```php
+// By namespace
+$groupActionForm = $this->get('idci.group_action.manager')->createForm(array(
+    'namespace' => 'your_namespace',
+    'submit_button_options' => array('attr' => array(
+        'class' => 'btn',
+    )),
+));
+
+// By actions
+$groupActionForm = $this->get('idci.group_action.manager')->createForm(array(
+    'actions' => array(
+        'action_1',
+        'action_2',
+        ...
+    ),
+    'submit_button_options' => array('attr' => array(
+        'class' => 'btn',
+    )),
+));
+```
+Executing the submitted form :
+
+```php
+if ($this->get('idci.group_action.manager')->hasAction($request)) {
+    $result = $this->get('idci.group_action.manager')->execute(
+        $request,
+        $groupActionForm,
+        $yourData
+    );
+
+    if ($result instanceof Response) {
+        return $result;
+    }
+
+    // Redirect to your route
+    return $this->redirect($this->generateUrl('your_route'));
+}
+```
+
 TODO
 ----
 
