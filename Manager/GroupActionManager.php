@@ -15,9 +15,9 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
-use IDCI\Bundle\GroupActionBundle\Exception\RuntimeException;
 use IDCI\Bundle\GroupActionBundle\Form\GroupActionType;
 use IDCI\Bundle\GroupActionBundle\Guesser\GroupActionGuesserInterface;
+use IDCI\Bundle\GroupActionBundle\Exception\UndefinedSubmitOriginException;
 
 class GroupActionManager
 {
@@ -174,7 +174,7 @@ class GroupActionManager
             }
         }
 
-        throw new RuntimeException('The form must be submitted by a group action submit button.');
+        throw new UndefinedSubmitOriginException('The form must be submitted by a group action submit button.');
     }
 
     /**

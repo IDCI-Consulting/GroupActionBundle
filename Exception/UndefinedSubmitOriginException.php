@@ -2,6 +2,6 @@
 
 namespace IDCI\Bundle\GroupActionBundle\Exception;
 
-class RuntimeException extends \RuntimeException
+class UndefinedSubmitOriginException extends \Exception
 {
 }
