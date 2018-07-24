@@ -15,4 +15,3 @@ interface GroupActionGuesserInterface
      */
     public function guess($namespace);
 }
-

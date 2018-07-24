@@ -2,8 +2,19 @@ version: '3'
 
 services:
 
+  node:
+    image: idci-group-action/node:8.4.0
+    container_name: idci-group-action-node
+    build:
+      context: ./.docker/node/build
+      args:
+        - NODE_VERSION=8.4.0
+    volumes:
+      - ./:/usr/src/app/
+
   php:
-    container_name: group-action-php
+    container_name: idci-group-action-php
+    image: idci-group-action/php:5.6-fpm
     build:
       context: .docker/php/5.6/build
     volumes:
