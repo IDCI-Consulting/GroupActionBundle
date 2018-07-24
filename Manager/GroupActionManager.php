@@ -3,6 +3,7 @@
 namespace IDCI\Bundle\GroupActionBundle\Manager;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -17,7 +18,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
 use IDCI\Bundle\GroupActionBundle\Form\GroupActionType;
 use IDCI\Bundle\GroupActionBundle\Guesser\GroupActionGuesserInterface;
-use IDCI\Bundle\GroupActionBundle\Exception\UndefinedSubmitOriginException;
 
 class GroupActionManager
 {
@@ -157,27 +157,6 @@ class GroupActionManager
     }
 
     /**
-     * Builds the group action form with given request
-     *
-     * @param Request $request The http request.
-     *
-     * @return Symfony\Component\Form\FormInterface
-     */
-    public function buildForm(Request $request)
-    {
-        $data = $request->request->get(self::QUERY_STRING_PARAMETER_NAME);
-        foreach ($data as $key => $value) {
-            if (!in_array($key, array('data', '_token')) && $this->groupActionRegistry->hasAction($value)) {
-                return $this->createForm(array(
-                    'actions' => array($value)
-                ));
-            }
-        }
-
-        throw new UndefinedSubmitOriginException('The form must be submitted by a group action submit button.');
-    }
-
-    /**
      * Returns whether the given request has action to execute.
      *
      * @param Request $request
@@ -193,19 +172,18 @@ class GroupActionManager
      * Executes group actions with given data.
      *
      * @param Request $request
+     * @param Form    $form
      * @param array   $data
      *
      * @return mixed
      */
-    public function execute(Request $request, array $data)
+    public function execute(Request $request, Form $form, array $data)
     {
         if (!$request->isMethod(Request::METHOD_POST)) {
             throw new MethodNotAllowedException(array(Request::METHOD_POST));
         }
 
-        $form = $this->buildForm($request);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $groupAction = $this
                 ->groupActionRegistry
