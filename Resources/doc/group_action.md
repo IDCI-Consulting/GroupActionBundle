@@ -36,8 +36,3 @@ acme.group_action.my_group_action:
     tags:
         - { name: idci.group_action, alias: my_group_action }
 ```
-
-More
-----
-
-See the [example part](example.md) for a concrete example.
