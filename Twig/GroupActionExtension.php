@@ -30,6 +30,11 @@ class GroupActionExtension extends AbstractExtension
                 array($this, 'addGroupActionCheckBox'),
                 array('is_safe' => array('html'))
             ),
+            new \Twig_SimpleFunction(
+                'add_group_action_handler',
+                array($this, 'addGroupActionHandler'),
+                array('is_safe' => array('html'))
+            ),
         );
     }
 
@@ -43,5 +48,13 @@ class GroupActionExtension extends AbstractExtension
         print $this->twig->render('IDCIGroupActionBundle:Form:group_action_checkbox.html.twig', array(
             'index' => $index,
         ));
+    }
+
+    /**
+     * Add a checkbox to the given FormView.
+     */
+    public function addGroupActionHandler()
+    {
+        print $this->twig->render('IDCIGroupActionBundle:Form:group_action_handler.html.twig');
     }
 }
