@@ -3,12 +3,6 @@
 This Symfony bundle allows to run an action on several `abstract` data type (array, entities, documents, ...) throught a form.
 The purpose is to give a simple way to create actions and display a form.
 
-* [Introduction](#introduction)
-    * Glossary
-    * UML Schema
-* [Installation](#installation)
-* [Documentation](#documentation)
-
 Introduction
 ------------
 
@@ -60,4 +54,3 @@ Documentation
 * [How to define group actions throught namespaces](Resources/doc/namespace.md)
 * [How to create a group action form in your Controller](Resources/doc/group_action_form.md)
 * [How to display the group action form in the view](Resources/doc/group_action_form_view.md)
-* [Example](Resources/doc/example.md)
