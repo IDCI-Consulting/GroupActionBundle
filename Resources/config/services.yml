@@ -44,8 +44,6 @@ services:
   # Twig Extension
   idci.group_action.twig_extension:
     class: "%idci.group_action.twig_extension.class%"
-    arguments:
-        - "@twig"
     public: false
     tags:
         - { name: twig.extension }

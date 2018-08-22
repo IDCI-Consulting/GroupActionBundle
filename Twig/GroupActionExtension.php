@@ -3,22 +3,9 @@
 namespace IDCI\Bundle\GroupActionBundle\Twig;
 
 use Twig\Extension\AbstractExtension;
-use Symfony\Component\Form\FormRenderer;
-use Symfony\Component\Form\FormView;
-use IDCI\Bundle\GroupActionBundle\Manager\GroupActionManager;
 
 class GroupActionExtension extends AbstractExtension
 {
-    /**
-     * @var \Twig_Environment
-     */
-    private $twig;
-
-    public function __construct(\Twig_Environment $twig)
-    {
-        $this->twig = $twig;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -28,12 +15,18 @@ class GroupActionExtension extends AbstractExtension
             new \Twig_SimpleFunction(
                 'add_group_action_checkbox',
                 array($this, 'addGroupActionCheckBox'),
-                array('is_safe' => array('html'))
+                array(
+                    'is_safe' => array('html'),
+                    'needs_environment' => true,
+                )
             ),
             new \Twig_SimpleFunction(
                 'add_group_action_handler',
                 array($this, 'addGroupActionHandler'),
-                array('is_safe' => array('html'))
+                array(
+                    'is_safe' => array('html'),
+                    'needs_environment' => true,
+                )
             ),
         );
     }
@@ -41,20 +34,23 @@ class GroupActionExtension extends AbstractExtension
     /**
      * Add a checkbox to the given FormView.
      *
+     * @param \Twig_Environment $twig
      * @param mixed $index
      */
-    public function addGroupActionCheckBox($index)
+    public function addGroupActionCheckBox(\Twig_Environment $twig, $index)
     {
-        print $this->twig->render('IDCIGroupActionBundle:Form:group_action_checkbox.html.twig', array(
+        print $twig->render('IDCIGroupActionBundle:Form:group_action_checkbox.html.twig', array(
             'index' => $index,
         ));
     }
 
     /**
      * Add a checkbox to the given FormView.
+     *
+     * @param \Twig_Environment $twig
      */
-    public function addGroupActionHandler()
+    public function addGroupActionHandler(\Twig_Environment $twig)
     {
-        print $this->twig->render('IDCIGroupActionBundle:Form:group_action_handler.html.twig');
+        print $twig->render('IDCIGroupActionBundle:Form:group_action_handler.html.twig');
     }
 }
