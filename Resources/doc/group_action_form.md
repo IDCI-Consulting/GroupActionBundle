@@ -26,3 +26,15 @@ The `createForm` method accepts the following parameters:
 | `actions` | The group actions list. | `array` |
 | `submit_button_options` | Options given to each group action submit button. | `array` |
 | `form_options` | Options given to the group action form. | `array` |
+
+To execute the group action you have to use the manager.
+
+```php
+if ($this->get('idci.group_action.manager')->hasAction($request)) {
+    $result = $this->get('idci.group_action.manager')->execute($request, $groupActionForm, $elements);
+
+    if ($result instanceof Response) {
+        return $result;
+    }
+}
+```
