@@ -165,7 +165,7 @@ class GroupActionManager
      */
     public function hasAction(Request $request)
     {
-        return $request->request->has(self::QUERY_STRING_PARAMETER_NAME);
+        return $request->request->has(self::QUERY_STRING_PARAMETER_NAME) && array_key_exists('data', $request->request->get(self::QUERY_STRING_PARAMETER_NAME));
     }
 
     /**
