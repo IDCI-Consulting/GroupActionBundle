@@ -31,7 +31,7 @@ services:
       - "@idci.group_action.guesser"
       - "%idci.group_action.enable_confirmation%"
     tags:
-      - { name: form.type, alias: group_action }
+      - { name: form.type, alias: idci_group_action }
 
   # Manager
   idci.group_action.manager:

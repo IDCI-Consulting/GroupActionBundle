@@ -129,4 +129,13 @@ class GroupActionType extends AbstractType
             })
         ;
     }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'idci_group_action';
+    }
 }
