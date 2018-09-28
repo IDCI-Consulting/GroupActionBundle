@@ -10,11 +10,10 @@ trait GroupActionControllerTrait
     public function executeGroupAction(Request $request, Form $groupActionForm)
     {
         $groupActionForm->handleRequest($request);
+
         if ($groupActionForm->isSubmitted()) {
             if ($groupActionForm->isValid()) {
-                $result = $this->container->get('idci.group_action.manager')->execute($groupActionForm);
-
-                return $result;
+                return $this->container->get('idci.group_action.manager')->execute($groupActionForm);
             }
 
             $this->addFlash('error', 'flash.invalid_form');
