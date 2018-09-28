@@ -28,6 +28,8 @@ services:
     arguments:
       - "@translator"
       - "@idci.group_action.registry"
+      - "@idci.group_action.guesser"
+      - "%idci.group_action.enable_confirmation%"
     tags:
       - { name: form.type, alias: group_action }
 
@@ -35,11 +37,8 @@ services:
   idci.group_action.manager:
     class: "%idci.group_action.manager.class%"
     arguments:
-      - "@translator"
-      - "@form.factory"
+      - "@request_stack"
       - "@idci.group_action.registry"
-      - "@idci.group_action.guesser"
-      - "%idci.group_action.enable_confirmation%"
 
   # Twig Extension
   idci.group_action.twig_extension:

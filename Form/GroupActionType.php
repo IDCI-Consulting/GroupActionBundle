@@ -2,20 +2,23 @@
 
 namespace IDCI\Bundle\GroupActionBundle\Form;
 
+use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
+use IDCI\Bundle\GroupActionBundle\Guesser\GroupActionGuesserInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use IDCI\Bundle\GroupActionBundle\Action\GroupActionInterface;
-use IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistryInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class GroupActionType extends AbstractType
 {
+    const QUERY_STRING_PARAMETER_NAME = 'idci_group_action';
+    const CHECKBOX_FORM_ITEM_NAME = 'data';
+
     /**
      * @var TranslatorInterface
      */
@@ -26,10 +29,26 @@ class GroupActionType extends AbstractType
      */
     private $registry;
 
-    public function __construct(TranslatorInterface $translator, GroupActionRegistryInterface $registry)
-    {
+    /**
+     * @var GroupActionGuesserInterface
+     */
+    private $groupActionGuesser;
+
+    /**
+     * @var bool
+     */
+    private $confirmationEnabled;
+
+    public function __construct(
+        TranslatorInterface          $translator,
+        GroupActionRegistryInterface $registry,
+        GroupActionGuesserInterface  $groupActionGuesser,
+                                     $confirmationEnabled
+    ) {
         $this->translator = $translator;
         $this->registry = $registry;
+        $this->groupActionGuesser = $groupActionGuesser;
+        $this->confirmationEnabled = $confirmationEnabled;
     }
 
     /**
@@ -37,20 +56,31 @@ class GroupActionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            $event->getForm()->add('data');
-        });
+        $builder
+            ->setMethod(Request::METHOD_POST)
+            ->add(self::CHECKBOX_FORM_ITEM_NAME, ChoiceType::class, array(
+                'choices' => $options['data'],
+                'multiple' => true,
+                'expanded' => true,
+                'choice_label' => false,
+                'constraints' => new Assert\NotBlank(),
+            ))
+        ;
 
-        foreach ($options['group_action_aliases'] as $alias) {
-            $groupAction = $this->registry->getGroupAction($alias);
+        foreach ($options['actions'] as $actionAlias) {
+            $groupAction = $this->registry->getAction($actionAlias);
 
-            $builder->add($alias, SubmitType::class, array_replace_recursive(
-                array(
-                    'label' => $translatedGroupAction,
-                    'attr' => array('value' => $alias)
-                ),
-                $options['submit_button_options']
-            ));
+            $builder
+                ->add($actionAlias, SubmitType::class, array_replace_recursive(
+                    array(
+                        'attr' => array(
+                            'value' => $actionAlias,
+                        ),
+                        'label' => $actionAlias,
+                    ),
+                    $options['submit_button_options']
+                ))
+            ;
         }
     }
 
@@ -60,18 +90,43 @@ class GroupActionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setRequired(array(
-                'group_action_aliases',
-            ))
-            ->setDefined(array('submit_button_options'))
-            ->setAllowedTypes(array(
-                'group_action_aliases' => array('array'),
-                'submit_button_options' => array('array'),
-            ))
             ->setDefaults(array(
-                'allow_extra_fields' => true,
+                'actions' => array(),
+                'data' => array(),
+                'enable_confirmation' => $this->confirmationEnabled,
+                'form_options' => array(),
+                'namespace' => null,
                 'submit_button_options' => array(),
             ))
+            ->setAllowedTypes('actions', array('array'))
+            ->setAllowedTypes('data', array('array'))
+            ->setAllowedTypes('enable_confirmation', array('bool'))
+            ->setAllowedTypes('form_options', array('array'))
+            ->setAllowedTypes('namespace', array('null', 'string'))
+            ->setAllowedTypes('submit_button_options', array('array'))
+            ->setNormalizer('actions', function (Options $options, $value) {
+                if (null !== $options['namespace']) {
+                    $value = array_merge(
+                        $this->groupActionGuesser->guess($options['namespace']),
+                        $value
+                    );
+                }
+
+                return $value;
+            })
+            ->setNormalizer('form_options', function (Options $options, $value) {
+                if ($options['enable_confirmation']) {
+                    $value = array_replace_recursive(
+                        array('attr' => array(
+                            'data-confirm-action' => $this->translator->trans('group_action.confirm_action'),
+                            'data-confirm-message' => $this->translator->trans('group_action.confirm_message'),
+                        )),
+                        $value
+                    );
+                }
+
+                return $value;
+            })
         ;
     }
 }
