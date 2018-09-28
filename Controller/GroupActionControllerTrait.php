@@ -16,7 +16,7 @@ trait GroupActionControllerTrait
                 return $this->container->get('idci.group_action.manager')->execute($groupActionForm);
             }
 
-            $this->addFlash('error', 'flash.invalid_form');
+            $this->addFlash('error', 'error.no_items_checked');
         }
     }
 }
