@@ -21,9 +21,9 @@ abstract class AbstractGroupAction implements GroupActionInterface
     private $alias;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param EntityManager $entityManager.
+     * @param EntityManager $entityManager
      */
     public function __construct(ObjectManager $om = null)
     {
@@ -55,7 +55,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
         $reflectionClass = new \ReflectionClass($this);
 
         foreach ($reflectionClass->getMethods() as $method) {
-            if (preg_match("/^execute[a-zA-Z0-9]+/", $method->name)) {
+            if (preg_match('/^execute[a-zA-Z0-9]+/', $method->name)) {
                 $actions[] = str_replace('execute', '', $method->name);
             }
         }
@@ -78,7 +78,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
     }
 
     /**
-     * To string
+     * To string.
      *
      * @return string
      */

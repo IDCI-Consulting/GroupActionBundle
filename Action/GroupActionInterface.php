@@ -8,14 +8,14 @@ namespace IDCI\Bundle\GroupActionBundle\Action;
 interface GroupActionInterface
 {
     /**
-     * Returns the available actions
+     * Returns the available actions.
      *
      * @return array
      */
     public function getActions();
 
     /**
-     * Sets group action's alias with the given alias
+     * Sets group action's alias with the given alias.
      *
      * @param string $alias
      *
@@ -24,7 +24,7 @@ interface GroupActionInterface
     public function setAlias($alias);
 
     /**
-     * Returns group action's alias
+     * Returns group action's alias.
      *
      * @return string
      */

@@ -10,8 +10,8 @@ interface GroupActionRegistryInterface
     /**
      * Sets a group action identified by an alias.
      *
-     * @param string               $alias       The group action alias.
-     * @param GroupActionInterface $groupAction The group action.
+     * @param string               $alias       the group action alias
+     * @param GroupActionInterface $groupAction the group action
      *
      * @return GroupActionRegistryInterface
      */
@@ -20,21 +20,21 @@ interface GroupActionRegistryInterface
     /**
      * Returns group action by alias.
      *
-     * @param string $alias The alias of group action.
+     * @param string $alias the alias of group action
      *
      * @return GroupActionInterface
      *
-     * @throws Exception\UnexpectedTypeException  If the passed alias is not a string.
-     * @throws \InvalidArgumentException If the group action can not be retrieved.
+     * @throws Exception\UnexpectedTypeException if the passed alias is not a string
+     * @throws \InvalidArgumentException         if the group action can not be retrieved
      */
     public function getAction($alias);
 
     /**
      * Returns whether the given group action is supported.
      *
-     * @param string $alias The alias of the group action.
+     * @param string $alias the alias of the group action
      *
-     * @return bool Whether the group action is present.
+     * @return bool whether the group action is present
      */
     public function hasAction($alias);
 }

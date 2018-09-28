@@ -35,11 +35,11 @@ class GroupActionExtension extends AbstractExtension
      * Add a checkbox to the given FormView.
      *
      * @param \Twig_Environment $twig
-     * @param mixed $index
+     * @param mixed             $index
      */
     public function addGroupActionCheckBox(\Twig_Environment $twig, $index)
     {
-        print $twig->render('IDCIGroupActionBundle:Form:group_action_checkbox.html.twig', array(
+        echo $twig->render('IDCIGroupActionBundle:Form:group_action_checkbox.html.twig', array(
             'index' => $index,
         ));
     }
@@ -51,6 +51,6 @@ class GroupActionExtension extends AbstractExtension
      */
     public function addGroupActionHandler(\Twig_Environment $twig)
     {
-        print $twig->render('IDCIGroupActionBundle:Form:group_action_handler.html.twig');
+        echo $twig->render('IDCIGroupActionBundle:Form:group_action_handler.html.twig');
     }
 }

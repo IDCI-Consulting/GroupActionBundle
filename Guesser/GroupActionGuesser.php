@@ -2,7 +2,6 @@
 
 namespace IDCI\Bundle\GroupActionBundle\Guesser;
 
-use IDCI\Bundle\GroupActionBundle\Action\GroupActionInterface;
 use IDCI\Bundle\GroupActionBundle\Exception\UndefinedGroupActionNamespaceException;
 
 class GroupActionGuesser implements GroupActionGuesserInterface
@@ -13,7 +12,7 @@ class GroupActionGuesser implements GroupActionGuesserInterface
     private $namespaces = array();
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function guess($namespace)
     {
