@@ -62,6 +62,7 @@ class GroupActionType extends AbstractType
                 'choices' => $options['data'],
                 'multiple' => true,
                 'expanded' => true,
+                'label' => false,
                 'choice_label' => false,
                 'constraints' => new Assert\NotBlank(),
             ))
