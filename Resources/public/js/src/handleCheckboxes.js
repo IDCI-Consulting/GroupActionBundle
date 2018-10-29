@@ -5,7 +5,7 @@ function handleCheckboxes(element) {
     return;
   }
 
-  var checkboxes = document.forms['idci_group_action'].getElementsByTagName('input');
+  var checkboxes = document.forms['idci_group_action'].querySelectorAll('input[name^=idci_group_action]');
 
   if (element.checked) {
     checkAll(checkboxes);
