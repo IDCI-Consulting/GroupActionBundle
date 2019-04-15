@@ -9,20 +9,28 @@ parameters:
 services:
 
   # Registry
+  IDCI\Bundle\GroupActionBundle\Action\GroupActionRegistry: "@idci.group_action.registry"
+
   idci.group_action.registry:
     class: "%idci.group_action.registry.class%"
 
   # Guesser
+  IDCI\Bundle\GroupActionBundle\Guesser\GroupActionGuesser: "@idci.group_action.guesser"
+
   idci.group_action.guesser:
     class: "%idci.group_action.guesser.class%"
 
   # Action
+  IDCI\Bundle\GroupActionBundle\Action\AbstractGroupAction: "@idci.group_action"
+
   idci.group_action:
     abstract: true
     class: "%idci.group_action.class%"
     arguments: [ "@doctrine.orm.entity_manager" ]
 
   # FormType
+  IDCI\Bundle\GroupActionBundle\Form\GroupActionType: "@idci.group_action.form.type"
+
   idci.group_action.form.type:
     class: "%idci.group_action.form.type.class%"
     arguments:
@@ -34,6 +42,8 @@ services:
       - { name: form.type, alias: idci_group_action }
 
   # Manager
+  IDCI\Bundle\GroupActionBundle\Manager\GroupActionManager: "@idci.group_action.manager"
+
   idci.group_action.manager:
     class: "%idci.group_action.manager.class%"
     arguments:
@@ -41,6 +51,8 @@ services:
       - "@idci.group_action.registry"
 
   # Twig Extension
+  IDCI\Bundle\GroupActionBundle\Twig\GroupActionExtension: "@idci.group_action.twig_extension"
+
   idci.group_action.twig_extension:
     class: "%idci.group_action.twig_extension.class%"
     public: false
