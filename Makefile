@@ -15,39 +15,37 @@ bash:
 	docker-compose exec php bash
 
 
-# NodeJs commands
+# Docker commands
+
+.PHONY: build-image
+build-image:
+	docker build -t idci-group-action/php:7.2-fpm -f .docker/php/Dockerfile .
+
+.PHONY: up
+up:
+	docker-compose up -d
+
+.PHONY: down
+down:
+	docker-compose down
+
+
+# NPM commands
 
 .PHONY: npm-install
 npm-install:
-	docker-compose run --rm node npm install $(options)
-
-.PHONY: yarn
-yarn:
-	docker-compose run --rm node yarn $(cmd) $(options)
+	docker run --rm -i -v `pwd`:/usr/src/app -w /usr/src/app node:9.5.0 npm install $(options)
 
 .PHONY: webpack-dev
 webpack-dev:
-	docker-compose run --rm node yarn run webpack-dev
+	docker run --rm -i -v `pwd`:/usr/src/app -w /usr/src/app node:9.5.0 npm run webpack-dev
 
 .PHONY: webpack-prod
 webpack-prod:
-	docker-compose run --rm node yarn run webpack-prod
-
-.PHONY: sass-dev
-sass-dev:
-	docker-compose run --rm node yarn run sass-dev $(options)
-
-.PHONY: sass-prod
-sass-prod:
-	docker-compose run --rm node yarn run sass-prod $(options)
+	docker run --rm -i -v `pwd`:/usr/src/app -w /usr/src/app node:9.5.0 npm run webpack-prod
 
 
 # PHP commands
-
-.PHONY: composer-add-github-token
-composer-add-github-token:
-	docker-compose run --rm php composer config --global github-oauth.github.com $(token)
-
 .PHONY: composer-update
 composer-update:
 	docker-compose run --rm php composer update $(options)
@@ -75,16 +73,3 @@ phpdcd:
 .PHONY: phpcs-fix
 phpcs-fix:
 	docker run --rm -i -v `pwd`:`pwd` -w `pwd` grachev/php-cs-fixer --rules=@Symfony --verbose fix $(php_sources)
-
-
-# Symfony2.x app commands
-
-.PHONY: pac
-pac:
-	docker-compose run --rm php php app/console $(cmd)
-
-.PHONY: phpunit
-phpunit: ./vendor/phpunit/phpunit/phpunit ./phpunit.xml.dist
-	docker-compose run --rm php php ./vendor/phpunit/phpunit/phpunit
-
-default: pac

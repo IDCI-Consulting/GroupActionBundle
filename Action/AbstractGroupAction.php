@@ -47,23 +47,6 @@ abstract class AbstractGroupAction implements GroupActionInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getActions()
-    {
-        $actions = array();
-        $reflectionClass = new \ReflectionClass($this);
-
-        foreach ($reflectionClass->getMethods() as $method) {
-            if (preg_match('/^execute[a-zA-Z0-9]+/', $method->name)) {
-                $actions[] = str_replace('execute', '', $method->name);
-            }
-        }
-
-        return $actions;
-    }
-
-    /**
      * Gets ObjectManager.
      *
      * @return ObjectManager

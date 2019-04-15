@@ -1,11 +1,12 @@
 function handleCheckboxes(element) {
-  if (!document.forms['idci_group_action']) {
-    console.warn('The "idci_group_action" was not found !');
+  let checkboxes = [];
 
-    return;
-  }
-
-  var checkboxes = document.forms['idci_group_action'].querySelectorAll('input[name^=idci_group_action]');
+  let forms = Array.from(document.forms);
+  forms.forEach(function (form) {
+    form.querySelectorAll('input[name*=group_action]').forEach(function (checkbox) {
+      checkboxes.push(checkbox)
+    });
+  });
 
   if (element.checked) {
     checkAll(checkboxes);
