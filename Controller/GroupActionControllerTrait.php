@@ -24,7 +24,13 @@ trait GroupActionControllerTrait
 
         if ($groupActionForm->isSubmitted()) {
             if ($groupActionForm->isValid()) {
-                return $this->manager->execute($groupActionForm);
+                try {
+                    return $this->manager->execute($groupActionForm);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+
+                    return;
+                }
             }
 
             $this->addFlash('error', $this->translator->trans('error.no_items_checked'));

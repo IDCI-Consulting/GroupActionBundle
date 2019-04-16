@@ -33,7 +33,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
     /**
      * {@inheritdoc}
      */
-    public function setAlias($alias)
+    public function setAlias(string $alias)
     {
         $this->alias = $alias;
     }
@@ -41,7 +41,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return $this->alias;
     }
@@ -51,7 +51,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
      *
      * @return ObjectManager
      */
-    public function getObjectManager()
+    public function getObjectManager(): ?ObjectManager
     {
         if (null === $this->om) {
             throw new ObjectManagerMissingException(get_called_class());
@@ -65,7 +65,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getAlias();
     }

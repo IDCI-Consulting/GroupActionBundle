@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use IDCI\Bundle\GroupActionBundle\Form\GroupActionType;
 
 class GroupActionManager
 {
@@ -61,9 +62,19 @@ class GroupActionManager
         }
 
         if ($form->isValid()) {
+            $groupActionName = null;
+
+            if (null !== $form->getClickedButton()) {
+                $groupActionName = $form->getClickedButton()->getName();
+            }
+
+            if ($form->has(GroupActionType::CHOICE_FORM_NAME)) {
+                $groupActionName = $form->get(GroupActionType::CHOICE_FORM_NAME)->getData();
+            }
+
             $groupAction = $this
                 ->groupActionRegistry
-                ->getAction($form->getClickedButton()->getName())
+                ->getAction($groupActionName)
             ;
 
             return $groupAction->execute($form->get('data')->getData());

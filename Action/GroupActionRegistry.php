@@ -2,8 +2,6 @@
 
 namespace IDCI\Bundle\GroupActionBundle\Action;
 
-use IDCI\Bundle\GroupActionBundle\Exception\UnexpectedTypeException;
-
 /**
  *  @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
@@ -17,7 +15,7 @@ class GroupActionRegistry implements GroupActionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function setAction($alias, GroupActionInterface $groupAction)
+    public function setAction(string $alias, GroupActionInterface $groupAction): GroupActionRegistryInterface
     {
         // Set the group action alias
         $groupAction->setAlias($alias);
@@ -30,13 +28,9 @@ class GroupActionRegistry implements GroupActionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getAction($alias)
+    public function getAction(?string $alias): GroupActionInterface
     {
-        if (!is_string($alias)) {
-            throw new UnexpectedTypeException($alias, 'string');
-        }
-
-        if (!isset($this->groupActions[$alias])) {
+        if (!$this->hasAction($alias)) {
             throw new \InvalidArgumentException(sprintf('Could not load group action "%s"', $alias));
         }
 
@@ -46,7 +40,7 @@ class GroupActionRegistry implements GroupActionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function hasAction($alias)
+    public function hasAction(string $alias): bool
     {
         return isset($this->groupActions[$alias]) ? true : false;
     }

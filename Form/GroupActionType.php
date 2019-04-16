@@ -18,6 +18,7 @@ class GroupActionType extends AbstractType
 {
     const QUERY_STRING_PARAMETER_NAME = 'idci_group_action';
     const CHECKBOX_FORM_ITEM_NAME = 'data';
+    const CHOICE_FORM_NAME = 'grouped_actions';
 
     /**
      * @var TranslatorInterface

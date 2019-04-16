@@ -14,14 +14,14 @@ interface GroupActionInterface
      *
      * @return GroupActionInterface
      */
-    public function setAlias($alias);
+    public function setAlias(string $alias);
 
     /**
      * Returns group action's alias.
      *
      * @return string
      */
-    public function getAlias();
+    public function getAlias(): string;
 
     /**
      * Executes group action with given data.
