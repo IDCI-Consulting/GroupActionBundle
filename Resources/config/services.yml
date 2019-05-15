@@ -49,6 +49,8 @@ services:
     arguments:
       - "@request_stack"
       - "@idci.group_action.registry"
+      - "@translator"
+      - "@session"
 
   # Twig Extension
   IDCI\Bundle\GroupActionBundle\Twig\GroupActionExtension: "@idci.group_action.twig_extension"
