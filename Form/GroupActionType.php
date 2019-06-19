@@ -99,6 +99,7 @@ class GroupActionType extends AbstractType
                 'form_options' => array(),
                 'namespace' => null,
                 'submit_button_options' => array(),
+                'csrf_protection' => false,
             ))
             ->setAllowedTypes('actions', array('array'))
             ->setAllowedTypes('data', array('array'))
