@@ -1,2 +1,2 @@
 <input id="idci_group_action_handler" {% if class is defined %}class="{{ class }}"{% endif %} type="checkbox" onchange="handleCheckboxes(this)" name="chk[]" />
-{% if label is defined and label is same as(true) %}<label for="idci_group_action_handler" {% if class is defined %}class="checkmark"{% endif %}></label>{% endif %}
+{% if label is defined and label is same as(true) %}<label for="idci_group_action_handler" {% if class is defined %}class="{{ class }}"{% endif %}></label>{% endif %}
