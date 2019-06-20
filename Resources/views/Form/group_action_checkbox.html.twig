@@ -1,1 +1,2 @@
-<input type="checkbox" name="idci_group_action[data][]" value="{{ index }}" />
+<input id="idci_group_action_{{ index }}" {% if class is defined %}class="{{ class }}"{% endif %} type="checkbox" name="idci_group_action[data][]" value="{{ index }}" />
+{% if label is defined and label is same as(true) %}<label for="idci_group_action_{{ index }}" {% if class is defined %}class="checkmark"{% endif %}></label>{% endif %}
