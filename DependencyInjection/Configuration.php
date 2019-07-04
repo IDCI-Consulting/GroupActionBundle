@@ -15,10 +15,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('idci_group_action');
+        $treeBuilder = new TreeBuilder('idci_group_action');
 
-        $rootNode
+        $treeBuilder->getRootNode()
             ->children()
                 ->booleanNode('enable_confirmation')
                     ->defaultTrue()
