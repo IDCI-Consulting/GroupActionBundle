@@ -69,16 +69,14 @@ class GroupActionType extends AbstractType
             ))
         ;
 
-        foreach ($options['actions'] as $actionAlias) {
-            $groupAction = $this->registry->getAction($actionAlias);
-
+        foreach ($options['actions'] as $action) {
             $builder
-                ->add($actionAlias, SubmitType::class, array_replace_recursive(
+                ->add($action['action_alias'], SubmitType::class, array_replace_recursive(
                     array(
                         'attr' => array(
-                            'value' => $actionAlias,
+                            'value' => $action['action_alias'],
                         ),
-                        'label' => $actionAlias,
+                        'label' => $action['display_label'],
                     ),
                     $options['submit_button_options']
                 ))

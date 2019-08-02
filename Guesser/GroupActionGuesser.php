@@ -24,16 +24,16 @@ class GroupActionGuesser implements GroupActionGuesserInterface
     }
 
     /**
-     * Add group action alias to the given namespace.
+     * Add group action to the given namespace.
      *
      * @param string $namespace
-     * @param string $actionAlias
+     * @param array $actionConfiguration
      *
      * @return GroupActionGuesser
      */
-    public function addActionAlias($namespace, $actionAlias)
+    public function addAction($namespace, $actionConfiguration)
     {
-        $this->namespaces[$namespace][] = $actionAlias;
+        $this->namespaces[$namespace][] = $actionConfiguration;
 
         return $this;
     }
