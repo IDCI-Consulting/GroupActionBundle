@@ -15,18 +15,23 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('idci_group_action');
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('idci_group_action');
 
-        $treeBuilder->getRootNode()
+        $rootNode
             ->children()
                 ->booleanNode('enable_confirmation')
                     ->defaultTrue()
                 ->end()
                 ->arrayNode('namespaces')
-                    ->defaultValue(array())
                     ->useAttributeAsKey('namespace')
-                    ->prototype('array')
-                        ->prototype('scalar')->end()
+                    ->arrayPrototype()
+                        ->arrayPrototype()
+                            ->children()
+                                ->scalarNode('action_alias')->end()
+                                ->scalarNode('display_label')->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end()

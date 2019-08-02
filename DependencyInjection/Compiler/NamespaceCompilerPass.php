@@ -2,8 +2,8 @@
 
 namespace IDCI\Bundle\GroupActionBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class NamespaceCompilerPass implements CompilerPassInterface
 {
@@ -19,12 +19,13 @@ class NamespaceCompilerPass implements CompilerPassInterface
         $guesserDefinition = $container->getDefinition('idci.group_action.guesser');
         $namespaces = $container->getParameter('idci.group_action.namespaces');
 
-        foreach ($namespaces as $namespace => $actionAliases) {
-            foreach ($actionAliases as $alias) {
+        foreach ($namespaces as $namespace => $actions) {
+            foreach ($actions as $action) {
                 $guesserDefinition->addMethodCall(
-                    'addActionAlias',
-                    array($namespace, $alias)
+                    'addAction',
+                    array($namespace, $action)
                 );
+
             }
         }
     }
