@@ -2,7 +2,7 @@
 
 namespace IDCI\Bundle\GroupActionBundle\Action;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\EntityManagerInterface;
 use IDCI\Bundle\GroupActionBundle\Exception\ObjectManagerMissingException;
 
 /**
@@ -11,7 +11,7 @@ use IDCI\Bundle\GroupActionBundle\Exception\ObjectManagerMissingException;
 abstract class AbstractGroupAction implements GroupActionInterface
 {
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
     private $om;
 
@@ -25,7 +25,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
      *
      * @param EntityManager $entityManager
      */
-    public function __construct(ObjectManager $om = null)
+    public function __construct(EntityManagerInterface $om = null)
     {
         $this->om = $om;
     }
@@ -47,11 +47,11 @@ abstract class AbstractGroupAction implements GroupActionInterface
     }
 
     /**
-     * Gets ObjectManager.
+     * Gets EntityManagerInterface.
      *
-     * @return ObjectManager
+     * @return EntityManagerInterface
      */
-    public function getObjectManager(): ?ObjectManager
+    public function getObjectManager(): ?EntityManagerInterface
     {
         if (null === $this->om) {
             throw new ObjectManagerMissingException(get_called_class());
