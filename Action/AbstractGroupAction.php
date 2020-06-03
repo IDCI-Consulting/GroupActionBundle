@@ -2,7 +2,7 @@
 
 namespace IDCI\Bundle\GroupActionBundle\Action;
 
-use Doctrine\Common\Persistence\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use IDCI\Bundle\GroupActionBundle\Exception\ObjectManagerMissingException;
 
 /**
