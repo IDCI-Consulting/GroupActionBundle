@@ -5,7 +5,7 @@ namespace IDCI\Bundle\GroupActionBundle\Controller;
 use IDCI\Bundle\GroupActionBundle\Manager\GroupActionManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 trait GroupActionControllerTrait
 {
