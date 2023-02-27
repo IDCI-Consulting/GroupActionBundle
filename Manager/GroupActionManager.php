@@ -9,9 +9,8 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GroupActionManager
 {
@@ -31,11 +30,6 @@ class GroupActionManager
     private $translator;
 
     /**
-     * @var Session
-     */
-    private $session;
-
-    /**
      * Constructor.
      *
      * @param RequestStack                 $requestStack,
@@ -44,13 +38,11 @@ class GroupActionManager
     public function __construct(
         RequestStack $requestStack,
         GroupActionRegistryInterface $groupActionRegistry,
-        TranslatorInterface $translator,
-        Session $session
+        TranslatorInterface $translator
     ) {
         $this->requestStack = $requestStack;
         $this->groupActionRegistry = $groupActionRegistry;
         $this->translator = $translator;
-        $this->session = $session;
     }
 
     /**
@@ -109,13 +101,13 @@ class GroupActionManager
                 try {
                     return $this->execute($groupActionForm);
                 } catch (\Exception $e) {
-                    $this->session->getFlashBag()->add('error', $e->getMessage());
+                    $this->requestStack->getSession()->getFlashBag()->add('error', $e->getMessage());
 
                     return;
                 }
             }
 
-            $this->session->getFlashBag()->add('error', $this->translator->trans('error.no_items_checked'));
+            $this->requestStack->getSession()->getFlashBag()->add('error', $this->translator->trans('error.no_items_checked'));
         }
     }
 }
