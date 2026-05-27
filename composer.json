@@ -3,13 +3,12 @@
     "description": "A symfony bundle to create/run grouped actions.",
     "type": "symfony-bundle",
     "require": {
-        "php": ">=5.6",
-        "symfony/framework-bundle": ">=2.8",
-        "doctrine/doctrine-bundle": "^1.8|^2.0"
+        "php": "^8.0",
+        "symfony/framework-bundle": "^6.0 || ^7.0",
+        "doctrine/doctrine-bundle": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.7",
-        "symfony/symfony": "~2.8"
+        "phpunit/phpunit": "^9.0"
     },
     "license": "MIT",
     "authors": [
@@ -19,10 +18,15 @@
         }
     ],
     "autoload": {
-        "psr-4": { "IDCI\\Bundle\\GroupActionBundle\\": "" },
+        "psr-4": { "IDCI\\Bundle\\GroupActionBundle\\": "src" },
         "exclude-from-classmap": [
-            "/Tests/"
+            "/tests/"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IDCI\\Bundle\\GroupActionBundle\\Tests\\": "tests/"
+        }
     },
     "minimum-stability": "stable"
 }

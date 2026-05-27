@@ -3,16 +3,16 @@ var path    = require('path');
 
 module.exports = {
   entry: {
-    'main': './Resources/public/js/src/main.js'
+    'main': './public/js/src/main.js'
   },
   output: {
-    path: __dirname + '/Resources/public/js/dist',
+    path: __dirname + '/public/js/dist',
     filename: '[name].js',
     publicPath: "/bundles/idcigroupaction/js/dist/"
   },
   resolve: {
     alias: {
-      'IDCIGroupActionBundle': path.resolve(__dirname, 'Resources/public/js/src/')
+      'IDCIGroupActionBundle': path.resolve(__dirname, 'public/js/src/')
     }
   },
   devtool: 'source-map',

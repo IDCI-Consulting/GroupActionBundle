@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   php:
-    image: idci-group-action/php:7.2-fpm
+    image: idci-group-action/php:8.1-fpm
     volumes:
       - ./:/var/www/group_action
       - composer:/var/www/.composer
