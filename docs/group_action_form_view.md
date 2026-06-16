@@ -1,9 +1,9 @@
 # Display the group action form in the view
 
-Two Twig functions are available :
-* `add_group_action_checkbox` : Add a checkbox input for a specific data.
+Two Twig functions are available :
+* `add_group_action_checkbox` : Add a checkbox input for a specific data.
 
-To display the group action form view, do as the following :
+To display the group action form view, do as the following :
 
 ```twig
  {{ form_start(groupActionForm) }}

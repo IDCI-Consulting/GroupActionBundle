@@ -6,15 +6,9 @@ use IDCI\Bundle\GroupActionBundle\Exception\UndefinedGroupActionNamespaceExcepti
 
 class GroupActionGuesser implements GroupActionGuesserInterface
 {
-    /**
-     * @var array
-     */
-    private $namespaces = array();
+    private array $namespaces = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function guess($namespace)
+    public function guess(string $namespace): array
     {
         if (!array_key_exists($namespace, $this->namespaces)) {
             throw new UndefinedGroupActionNamespaceException($namespace);
@@ -23,15 +17,7 @@ class GroupActionGuesser implements GroupActionGuesserInterface
         return $this->namespaces[$namespace];
     }
 
-    /**
-     * Add group action to the given namespace.
-     *
-     * @param string $namespace
-     * @param array $actionConfiguration
-     *
-     * @return GroupActionGuesser
-     */
-    public function addAction($namespace, $actionConfiguration)
+    public function addAction(string$namespace, array $actionConfiguration): self
     {
         $this->namespaces[$namespace][] = $actionConfiguration;
 

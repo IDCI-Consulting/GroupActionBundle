@@ -2,22 +2,12 @@
 
 namespace IDCI\Bundle\GroupActionBundle\Action;
 
-/**
- *  @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
- */
 class GroupActionRegistry implements GroupActionRegistryInterface
 {
-    /**
-     * @var GroupActionInterface[]
-     */
-    private $groupActions = array();
+    private array $groupActions = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAction(string $alias, GroupActionInterface $groupAction): GroupActionRegistryInterface
     {
-        // Set the group action alias
         $groupAction->setAlias($alias);
 
         $this->groupActions[$alias] = $groupAction;
@@ -25,9 +15,6 @@ class GroupActionRegistry implements GroupActionRegistryInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAction(?string $alias): GroupActionInterface
     {
         if (!$this->hasAction($alias)) {
@@ -37,9 +24,6 @@ class GroupActionRegistry implements GroupActionRegistryInterface
         return $this->groupActions[$alias];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasAction(string $alias): bool
     {
         return isset($this->groupActions[$alias]) ? true : false;

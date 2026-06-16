@@ -8,16 +8,13 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class GroupActionCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition('idci.group_action.registry')) {
+        if (!$container->hasDefinition('idci_group_action.registry')) {
             return;
         }
 
-        $registryDefinition = $container->getDefinition('idci.group_action.registry');
+        $registryDefinition = $container->getDefinition('idci_group_action.registry');
 
         foreach ($container->findTaggedServiceIds('idci.group_action') as $id => $tags) {
             foreach ($tags as $attributes) {

@@ -5,52 +5,28 @@ namespace IDCI\Bundle\GroupActionBundle\Action;
 use Doctrine\ORM\EntityManagerInterface;
 use IDCI\Bundle\GroupActionBundle\Exception\ObjectManagerMissingException;
 
-/**
- *  @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
- */
 abstract class AbstractGroupAction implements GroupActionInterface
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $om;
+    private EntityManagerInterface $om;
+    private string $alias;
 
-    /**
-     * @var string
-     */
-    private $alias;
-
-    /**
-     * Constructor.
-     *
-     * @param EntityManager $entityManager
-     */
     public function __construct(EntityManagerInterface $om = null)
     {
         $this->om = $om;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setAlias(string $alias)
+    public function setAlias(string $alias): self
     {
         $this->alias = $alias;
+
+        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias(): string
     {
         return $this->alias;
     }
 
-    /**
-     * Gets EntityManagerInterface.
-     *
-     * @return EntityManagerInterface
-     */
     public function getObjectManager(): ?EntityManagerInterface
     {
         if (null === $this->om) {
@@ -60,18 +36,10 @@ abstract class AbstractGroupAction implements GroupActionInterface
         return $this->om;
     }
 
-    /**
-     * To string.
-     *
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->getAlias();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function execute(array $data);
+    abstract public function execute(array $data): mixed;
 }

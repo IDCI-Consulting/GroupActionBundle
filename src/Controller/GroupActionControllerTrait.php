@@ -9,8 +9,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 trait GroupActionControllerTrait
 {
-    private $manager;
-    private $translator;
+    private GroupActionManager $manager;
+    private TranslatorInterface $translator;
 
     public function __construct(GroupActionManager $manager, TranslatorInterface $translator)
     {
@@ -18,7 +18,7 @@ trait GroupActionControllerTrait
         $this->translator = $translator;
     }
 
-    public function executeGroupAction(Request $request, Form $groupActionForm)
+    public function executeGroupAction(Request $request, Form $groupActionForm): mixed
     {
         $groupActionForm->handleRequest($request);
 
@@ -29,7 +29,7 @@ trait GroupActionControllerTrait
                 } catch (\Exception $e) {
                     $this->addFlash('error', $e->getMessage());
 
-                    return;
+                    return null;
                 }
             }
 

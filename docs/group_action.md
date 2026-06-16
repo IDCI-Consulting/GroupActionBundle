@@ -5,7 +5,7 @@ A "group action" is a Symfony service that will do any work you want. It will ru
 Create the GroupAction class
 ----------------------------
 
-First you need to create a GroupAction class that extends [AbstractGroupAction](../../Action/AbstractGroupAction).
+First you need to create a GroupAction class that extends [AbstractGroupAction](../src/Action/AbstractGroupAction).
 You have to implement the `execute` method.
 
 ```php
@@ -17,10 +17,7 @@ use IDCI\Bundle\GroupActionBundle\Action\AbstractGroupAction;
 
 class MyGroupAction extends AbstractGroupAction
 {
-    /**
-     * {@inheritDoc}
-     */
-     public function execute(array $data)
+     public function execute(array $data): mixed
      {
         // Your business logic with the given datasets.
      }
@@ -34,5 +31,5 @@ Register your class as a tagged service
 acme.group_action.my_group_action:
     class: My\Namespace\MyGroupAction
     tags:
-        - { name: idci.group_action, alias: my_group_action }
+        - { name: idci_group_action, alias: my_group_action }
 ```

@@ -7,17 +7,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class NamespaceCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition('idci.group_action.guesser')) {
+        if (!$container->hasDefinition('idci_group_action.guesser')) {
             return;
         }
 
-        $guesserDefinition = $container->getDefinition('idci.group_action.guesser');
-        $namespaces = $container->getParameter('idci.group_action.namespaces');
+        $guesserDefinition = $container->getDefinition('idci_group_action.guesser');
+        $namespaces = $container->getParameter('idci_group_action.namespaces');
 
         foreach ($namespaces as $namespace => $actions) {
             foreach ($actions as $action) {

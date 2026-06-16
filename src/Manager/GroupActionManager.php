@@ -14,27 +14,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GroupActionManager
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
+    private GroupActionRegistryInterface $groupActionRegistry;
+    private TranslatorInterface $translator;
 
-    /**
-     * @var GroupActionRegistryInterface
-     */
-    private $groupActionRegistry;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * Constructor.
-     *
-     * @param RequestStack                 $requestStack,
-     * @param GroupActionRegistryInterface $groupActionRegistry,
-     */
     public function __construct(
         RequestStack $requestStack,
         GroupActionRegistryInterface $groupActionRegistry,
@@ -45,26 +28,12 @@ class GroupActionManager
         $this->translator = $translator;
     }
 
-    /**
-     * Returns whether the current request has action to execute.
-     *
-     * @return bool
-     */
-    public function hasAction()
+    public function hasAction(): bool
     {
         return $this->requestStack->getCurrentRequest()->has(self::QUERY_STRING_PARAMETER_NAME);
     }
 
-    /**
-     * Executes group actions with given data.
-     *
-     * @param Request $request
-     * @param Form    $form
-     * @param array   $data
-     *
-     * @return mixed
-     */
-    public function execute(Form $form)
+    public function execute(Form $form): mixed
     {
         if (!$this->requestStack->getCurrentRequest()->isMethod(Request::METHOD_POST)) {
             throw new MethodNotAllowedException(array(Request::METHOD_POST));
@@ -92,7 +61,7 @@ class GroupActionManager
         return false;
     }
 
-    public function executeGroupAction(Request $request, Form $groupActionForm)
+    public function executeGroupAction(Request $request, Form $groupActionForm): mixed
     {
         $groupActionForm->handleRequest($request);
 
@@ -103,7 +72,7 @@ class GroupActionManager
                 } catch (\Exception $e) {
                     $this->requestStack->getSession()->getFlashBag()->add('error', $e->getMessage());
 
-                    return;
+                    return null;
                 }
             }
 
