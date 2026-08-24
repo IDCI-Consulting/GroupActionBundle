@@ -11,12 +11,12 @@ use IDCI\Bundle\GroupActionBundle\Exception\ObjectManagerMissingException;
 abstract class AbstractGroupAction implements GroupActionInterface
 {
     /**
-     * @var EntityManagerInterface
+     * @var EntityManagerInterface|null
      */
     private $om;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $alias;
 
@@ -25,7 +25,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
      *
      * @param EntityManager $entityManager
      */
-    public function __construct(EntityManagerInterface $om = null)
+    public function __construct(?EntityManagerInterface $om = null)
     {
         $this->om = $om;
     }
@@ -49,7 +49,7 @@ abstract class AbstractGroupAction implements GroupActionInterface
     /**
      * Gets EntityManagerInterface.
      *
-     * @return EntityManagerInterface
+     * @return EntityManagerInterface|null
      */
     public function getObjectManager(): ?EntityManagerInterface
     {
