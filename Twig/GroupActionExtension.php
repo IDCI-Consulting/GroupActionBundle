@@ -8,48 +8,40 @@ use Twig\TwigFunction;
 
 class GroupActionExtension extends AbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
-        return array(
+        return [
             new TwigFunction(
                 'add_group_action_checkbox',
-                array($this, 'addGroupActionCheckBox'),
-                array(
-                    'is_safe' => array('html'),
+                [$this, 'addGroupActionCheckBox'],
+                [
+                    'is_safe' => ['html'],
                     'needs_environment' => true,
-                )
+                ]
             ),
             new TwigFunction(
                 'add_group_action_handler',
-                array($this, 'addGroupActionHandler'),
-                array(
-                    'is_safe' => array('html'),
+                [$this, 'addGroupActionHandler'],
+                [
+                    'is_safe' => ['html'],
                     'needs_environment' => true,
-                )
+                ]
             ),
-        );
+        ];
     }
 
     /**
      * Add a checkbox to the given FormView.
-     *
-     * @param Environment $twig
-     * @param mixed             $index
      */
     public function addGroupActionCheckBox(Environment $twig, $index)
     {
-        echo $twig->render('IDCIGroupActionBundle:Form:group_action_checkbox.html.twig', array(
+        echo $twig->render('IDCIGroupActionBundle:Form:group_action_checkbox.html.twig', [
             'index' => $index,
-        ));
+        ]);
     }
 
     /**
      * Add a checkbox to the given FormView.
-     *
-     * @param Environment $twig
      */
     public function addGroupActionHandler(Environment $twig)
     {

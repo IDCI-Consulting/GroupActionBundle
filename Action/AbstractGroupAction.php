@@ -22,25 +22,17 @@ abstract class AbstractGroupAction implements GroupActionInterface
 
     /**
      * Constructor.
-     *
-     * @param EntityManager $entityManager
      */
     public function __construct(?EntityManagerInterface $om = null)
     {
         $this->om = $om;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAlias(string $alias)
     {
         $this->alias = $alias;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias(): string
     {
         return $this->alias;
@@ -48,8 +40,6 @@ abstract class AbstractGroupAction implements GroupActionInterface
 
     /**
      * Gets EntityManagerInterface.
-     *
-     * @return EntityManagerInterface|null
      */
     public function getObjectManager(): ?EntityManagerInterface
     {
@@ -62,16 +52,11 @@ abstract class AbstractGroupAction implements GroupActionInterface
 
     /**
      * To string.
-     *
-     * @return string
      */
     public function __toString(): string
     {
         return $this->getAlias();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     abstract public function execute(array $data);
 }

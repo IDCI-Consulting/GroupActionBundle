@@ -7,9 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class NamespaceCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('idci.group_action.guesser')) {
@@ -23,9 +20,8 @@ class NamespaceCompilerPass implements CompilerPassInterface
             foreach ($actions as $action) {
                 $guesserDefinition->addMethodCall(
                     'addAction',
-                    array($namespace, $action)
+                    [$namespace, $action]
                 );
-
             }
         }
     }

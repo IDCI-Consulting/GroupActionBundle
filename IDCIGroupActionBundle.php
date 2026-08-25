@@ -2,10 +2,10 @@
 
 namespace IDCI\Bundle\GroupActionBundle;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 use IDCI\Bundle\GroupActionBundle\DependencyInjection\Compiler\GroupActionCompilerPass;
 use IDCI\Bundle\GroupActionBundle\DependencyInjection\Compiler\NamespaceCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class IDCIGroupActionBundle extends Bundle
 {
