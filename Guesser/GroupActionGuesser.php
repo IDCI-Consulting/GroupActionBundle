@@ -9,11 +9,8 @@ class GroupActionGuesser implements GroupActionGuesserInterface
     /**
      * @var array
      */
-    private $namespaces = array();
+    private $namespaces = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function guess($namespace)
     {
         if (!array_key_exists($namespace, $this->namespaces)) {
@@ -27,7 +24,7 @@ class GroupActionGuesser implements GroupActionGuesserInterface
      * Add group action to the given namespace.
      *
      * @param string $namespace
-     * @param array $actionConfiguration
+     * @param array  $actionConfiguration
      *
      * @return GroupActionGuesser
      */

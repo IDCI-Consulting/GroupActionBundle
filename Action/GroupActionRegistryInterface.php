@@ -12,8 +12,6 @@ interface GroupActionRegistryInterface
      *
      * @param string               $alias       the group action alias
      * @param GroupActionInterface $groupAction the group action
-     *
-     * @return GroupActionRegistryInterface
      */
     public function setAction(string $alias, GroupActionInterface $groupAction): self;
 
@@ -21,8 +19,6 @@ interface GroupActionRegistryInterface
      * Returns group action by alias.
      *
      * @param string $alias the alias of group action
-     *
-     * @return GroupActionInterface
      *
      * @throws Exception\UnexpectedTypeException if the passed alias is not a string
      * @throws \InvalidArgumentException         if the group action can not be retrieved

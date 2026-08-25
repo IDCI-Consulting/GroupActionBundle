@@ -2,15 +2,12 @@
 
 namespace IDCI\Bundle\GroupActionBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class GroupActionCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('idci.group_action.registry')) {
@@ -28,7 +25,7 @@ class GroupActionCompilerPass implements CompilerPassInterface
 
                 $registryDefinition->addMethodCall(
                     'setAction',
-                    array($alias, new Reference($id))
+                    [$alias, new Reference($id)]
                 );
             }
         }

@@ -10,13 +10,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('idci_group_action');
-        
+
         $treeBuilder->getRootNode()
             ->children()
                 ->booleanNode('enable_confirmation')
